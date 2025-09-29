@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { ClientOnly } from 'remix-utils/client-only';
+import { initCompactMobileMode } from './lib/compactMobileMode';
 
 import reactToastifyStyles from 'react-toastify/dist/ReactToastify.css?url';
 import globalStyles from './styles/index.scss?url';
@@ -111,6 +112,24 @@ export default function App() {
       .catch((error) => {
         logStore.logError('Failed to initialize debug logging', error);
       });
+
+    // Initialize Compact Mobile Mode
+    try {
+      const compactMode = initCompactMobileMode({
+        autoEnable: true,
+        breakpoint: 480,
+        scaleFactor: 0.857,
+        touchMinSize: 40,
+        enablePassiveListeners: true
+      });
+      
+      logStore.logSystem('Compact Mobile Mode initialized', {
+        status: compactMode.getStatus(),
+        timestamp: new Date().toISOString(),
+      });
+    } catch (error) {
+      logStore.logError('Failed to initialize Compact Mobile Mode', error);
+    }
   }, []);
 
   return (
