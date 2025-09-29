@@ -1,0 +1,344 @@
+/* Compact Mobile Mode - Touch Optimized Responsive Design */
+
+/* Base responsive scaling variables */
+:root {
+  --compact-scale-factor: 1;
+  --compact-font-base: 14px;
+  --compact-font-small: 12px;
+  --compact-touch-min-size: 40px;
+  --compact-image-max-width: 80%;
+  --compact-modal-width: 70%;
+  --compact-modal-height: 60%;
+  --compact-modal-max-width: 90%;
+  --compact-modal-max-height: 90%;
+}
+
+/* Mobile breakpoint detection and scaling */
+@media (max-width: 480px) {
+  :root {
+    --compact-scale-factor: 0.857; /* 12px / 14px */
+    --compact-font-base: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  :root {
+    --compact-scale-factor: 0.8;
+    --compact-font-base: 11px;
+  }
+}
+
+/* Compact mode class for manual toggle */
+.compact-mode {
+  --compact-scale-factor: 0.857;
+  --compact-font-base: 12px;
+}
+
+.compact-mode.compact-mode-smaller {
+  --compact-scale-factor: 0.8;
+  --compact-font-base: 11px;
+}
+
+/* Base font scaling */
+html {
+  font-size: var(--compact-font-base);
+}
+
+/* Touch optimization base styles */
+* {
+  touch-action: manipulation;
+}
+
+/* Enhanced touch targets with invisible padding */
+.touch-optimized {
+  position: relative;
+  min-height: var(--compact-touch-min-size);
+  min-width: var(--compact-touch-min-size);
+}
+
+.touch-optimized::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(var(--compact-touch-min-size) - 100%);
+  height: calc(var(--compact-touch-min-size) - 100%);
+  min-width: 0;
+  min-height: 0;
+  z-index: -1;
+}
+
+/* Button scaling and touch optimization */
+button,
+.btn,
+[role="button"],
+[role="tab"],
+[role="menuitem"],
+.touch-target {
+  min-height: var(--compact-touch-min-size);
+  min-width: var(--compact-touch-min-size);
+  padding: calc(8px * var(--compact-scale-factor)) calc(12px * var(--compact-scale-factor));
+  font-size: calc(var(--compact-font-base) * var(--compact-scale-factor));
+  line-height: 1.4;
+  touch-action: manipulation;
+  position: relative;
+}
+
+/* Icon scaling */
+svg,
+.icon,
+[class*="icon-"] {
+  width: calc(100% * var(--compact-scale-factor));
+  height: calc(100% * var(--compact-scale-factor));
+  min-width: calc(16px * var(--compact-scale-factor));
+  min-height: calc(16px * var(--compact-scale-factor));
+}
+
+/* Image responsive scaling */
+img {
+  max-width: var(--compact-image-max-width);
+  height: auto;
+  transform: scale(var(--compact-scale-factor));
+  transform-origin: center;
+}
+
+/* Modal scaling and positioning */
+.modal,
+[role="dialog"],
+.dialog,
+.popup {
+  width: var(--compact-modal-width);
+  height: var(--compact-modal-height);
+  max-width: var(--compact-modal-max-width);
+  max-height: var(--compact-modal-max-height);
+  transform: scale(var(--compact-scale-factor));
+  transform-origin: center;
+  margin: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(var(--compact-scale-factor));
+}
+
+/* Center panel scaling */
+.center-panel,
+.main-content,
+.workbench {
+  transform: scale(var(--compact-scale-factor));
+  transform-origin: center;
+  width: calc(100% / var(--compact-scale-factor));
+  height: calc(100% / var(--compact-scale-factor));
+  margin: 0 auto;
+}
+
+/* Form elements scaling */
+input,
+textarea,
+select {
+  font-size: calc(var(--compact-font-base) * var(--compact-scale-factor));
+  padding: calc(8px * var(--compact-scale-factor)) calc(12px * var(--compact-scale-factor));
+  min-height: var(--compact-touch-min-size);
+  touch-action: manipulation;
+}
+
+/* Navigation and menu scaling */
+nav,
+.menu,
+.sidebar {
+  transform: scale(var(--compact-scale-factor));
+  transform-origin: top left;
+}
+
+/* Chat and message scaling */
+.chat,
+.messages,
+.message {
+  font-size: calc(var(--compact-font-base) * var(--compact-scale-factor));
+  line-height: 1.4;
+}
+
+/* Code blocks and terminal scaling */
+.code-block,
+.terminal,
+pre,
+code {
+  font-size: calc(var(--compact-font-base) * var(--compact-scale-factor));
+  line-height: 1.4;
+  transform: scale(var(--compact-scale-factor));
+  transform-origin: top left;
+}
+
+/* Header scaling */
+header,
+.header {
+  height: calc(var(--header-height) * var(--compact-scale-factor));
+  transform: scale(var(--compact-scale-factor));
+  transform-origin: top center;
+}
+
+/* Sidebar scaling */
+.sidebar {
+  width: calc(100% * var(--compact-scale-factor));
+  transform: scale(var(--compact-scale-factor));
+  transform-origin: top left;
+}
+
+/* Workbench scaling */
+.workbench {
+  width: calc(var(--workbench-width) * var(--compact-scale-factor));
+  transform: scale(var(--compact-scale-factor));
+  transform-origin: center;
+}
+
+/* Chat width scaling */
+.chat-container {
+  max-width: calc(var(--chat-max-width) * var(--compact-scale-factor));
+  min-width: calc(var(--chat-min-width) * var(--compact-scale-factor));
+}
+
+/* Toast and notification scaling */
+.toast,
+.notification,
+.alert {
+  font-size: calc(var(--compact-font-base) * var(--compact-scale-factor));
+  padding: calc(8px * var(--compact-scale-factor)) calc(12px * var(--compact-scale-factor));
+  transform: scale(var(--compact-scale-factor));
+  transform-origin: center;
+}
+
+/* Dropdown and popover scaling */
+.dropdown,
+.popover,
+.tooltip {
+  font-size: calc(var(--compact-font-base) * var(--compact-scale-factor));
+  transform: scale(var(--compact-scale-factor));
+  transform-origin: top left;
+}
+
+/* Table scaling */
+table {
+  font-size: calc(var(--compact-font-base) * var(--compact-scale-factor));
+  transform: scale(var(--compact-scale-factor));
+  transform-origin: top left;
+}
+
+/* List scaling */
+ul,
+ol,
+li {
+  font-size: calc(var(--compact-font-base) * var(--compact-scale-factor));
+  line-height: 1.4;
+}
+
+/* Card and container scaling */
+.card,
+.container,
+.panel {
+  font-size: calc(var(--compact-font-base) * var(--compact-scale-factor));
+  padding: calc(16px * var(--compact-scale-factor));
+  transform: scale(var(--compact-scale-factor));
+  transform-origin: center;
+}
+
+/* Ensure touch areas remain functional after scaling */
+.compact-mode *,
+.compact-mode-smaller * {
+  pointer-events: auto;
+}
+
+/* Prevent layout shifts during scaling */
+.compact-mode,
+.compact-mode-smaller {
+  overflow: hidden;
+}
+
+/* Maintain aspect ratios for scaled elements */
+.compact-mode img,
+.compact-mode-smaller img {
+  object-fit: contain;
+}
+
+/* Optimize for very small screens */
+@media (max-width: 320px) {
+  :root {
+    --compact-scale-factor: 0.75;
+    --compact-font-base: 10px;
+    --compact-touch-min-size: 44px; /* iOS minimum */
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  :root {
+    --compact-scale-factor: 0.9;
+  }
+  
+  .modal,
+  [role="dialog"] {
+    --compact-modal-height: 80%;
+  }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .compact-mode,
+  .compact-mode-smaller {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Accessibility improvements for compact mode */
+.compact-mode .sr-only,
+.compact-mode-smaller .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus indicators for touch devices */
+.compact-mode button:focus,
+.compact-mode-smaller button:focus,
+.compact-mode [role="button"]:focus,
+.compact-mode-smaller [role="button"]:focus {
+  outline: 2px solid var(--bolt-elements-borderColorActive);
+  outline-offset: 2px;
+}
+
+/* Smooth transitions for mode switching */
+.compact-mode,
+.compact-mode-smaller {
+  transition: all 0.3s ease-in-out;
+}
+
+.compact-mode *,
+.compact-mode-smaller * {
+  transition: transform 0.3s ease-in-out, font-size 0.3s ease-in-out;
+}
+
+/* Override for elements that shouldn't scale */
+.compact-mode .no-scale,
+.compact-mode-smaller .no-scale {
+  transform: none !important;
+  font-size: inherit !important;
+}
+
+/* Ensure proper z-index stacking after scaling */
+.compact-mode .modal,
+.compact-mode-smaller .modal {
+  z-index: 9999;
+}
+
+/* Fix for scaled elements that might overlap */
+.compact-mode .scaled-element,
+.compact-mode-smaller .scaled-element {
+  position: relative;
+  z-index: 1;
+}
