@@ -11,7 +11,7 @@ interface CompactModeConfig {
   enablePassiveListeners: boolean;
 }
 
-class CompactMobileMode {
+export class CompactMobileMode {
   private config: CompactModeConfig = {
     autoEnable: true,
     breakpoint: 480,
@@ -65,7 +65,7 @@ class CompactMobileMode {
     const passiveOptions = { passive: true, capture: false };
 
     touchEvents.forEach(eventType => {
-      document.addEventListener(eventType, this.handleTouchEvent.bind(this), passiveOptions);
+      document.addEventListener(eventType, this.handleTouchEvent.bind(this) as EventListener, passiveOptions);
     });
 
     // Add touch-action manipulation to all interactive elements
@@ -120,8 +120,9 @@ class CompactMobileMode {
 
     interactiveSelectors.forEach(selector => {
       const elements = document.querySelectorAll(selector);
-      elements.forEach((element: HTMLElement) => {
-        element.style.touchAction = 'manipulation';
+      elements.forEach((element) => {
+        const htmlElement = element as HTMLElement;
+        htmlElement.style.touchAction = 'manipulation';
       });
     });
   }

@@ -16,9 +16,10 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <motion.button
-          className="w-10 h-10 rounded-full bg-transparent flex items-center justify-center focus:outline-none"
+          className="w-10 h-10 sm:w-10 sm:h-10 rounded-full bg-transparent flex items-center justify-center focus:outline-none touch-optimized"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
+          style={{ minWidth: '44px', minHeight: '44px' }}
         >
           {profile?.avatar ? (
             <img
@@ -39,15 +40,20 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           className={classNames(
-            'min-w-[240px] z-[250]',
+            'min-w-[240px] max-w-[90vw] z-[250]',
             'bg-white dark:bg-[#141414]',
             'rounded-lg shadow-lg',
             'border border-gray-200/50 dark:border-gray-800/50',
             'animate-in fade-in-0 zoom-in-95',
             'py-1',
+            // Mobile optimizations
+            'mobile-dropdown',
           )}
           sideOffset={5}
           align="end"
+          side="bottom"
+          avoidCollisions={true}
+          collisionPadding={8}
         >
           <div
             className={classNames(
@@ -80,15 +86,17 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
 
           <DropdownMenu.Item
             className={classNames(
-              'flex items-center gap-2 px-4 py-2.5',
+              'flex items-center gap-2 px-4 py-3 sm:py-2.5',
               'text-sm text-gray-700 dark:text-gray-200',
               'hover:bg-purple-50 dark:hover:bg-purple-500/10',
               'hover:text-purple-500 dark:hover:text-purple-400',
               'cursor-pointer transition-all duration-200',
               'outline-none',
               'group',
+              'touch-optimized',
             )}
             onClick={() => onSelectTab('profile')}
+            style={{ minHeight: '44px' }}
           >
             <div className="i-ph:user-circle w-4 h-4 text-gray-400 group-hover:text-purple-500 dark:group-hover:text-purple-400 transition-colors" />
             Edit Profile
@@ -96,15 +104,17 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
 
           <DropdownMenu.Item
             className={classNames(
-              'flex items-center gap-2 px-4 py-2.5',
+              'flex items-center gap-2 px-4 py-3 sm:py-2.5',
               'text-sm text-gray-700 dark:text-gray-200',
               'hover:bg-purple-50 dark:hover:bg-purple-500/10',
               'hover:text-purple-500 dark:hover:text-purple-400',
               'cursor-pointer transition-all duration-200',
               'outline-none',
               'group',
+              'touch-optimized',
             )}
             onClick={() => onSelectTab('settings')}
+            style={{ minHeight: '44px' }}
           >
             <div className="i-ph:gear-six w-4 h-4 text-gray-400 group-hover:text-purple-500 dark:group-hover:text-purple-400 transition-colors" />
             Settings
@@ -114,17 +124,19 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
 
           <DropdownMenu.Item
             className={classNames(
-              'flex items-center gap-2 px-4 py-2.5',
+              'flex items-center gap-2 px-4 py-3 sm:py-2.5',
               'text-sm text-gray-700 dark:text-gray-200',
               'hover:bg-purple-50 dark:hover:bg-purple-500/10',
               'hover:text-purple-500 dark:hover:text-purple-400',
               'cursor-pointer transition-all duration-200',
               'outline-none',
               'group',
+              'touch-optimized',
             )}
             onClick={() =>
               window.open('https://github.com/stackblitz-labs/bolt.diy/issues/new?template=bug_report.yml', '_blank')
             }
+            style={{ minHeight: '44px' }}
           >
             <div className="i-ph:bug w-4 h-4 text-gray-400 group-hover:text-purple-500 dark:group-hover:text-purple-400 transition-colors" />
             Report Bug
@@ -132,13 +144,14 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
 
           <DropdownMenu.Item
             className={classNames(
-              'flex items-center gap-2 px-4 py-2.5',
+              'flex items-center gap-2 px-4 py-3 sm:py-2.5',
               'text-sm text-gray-700 dark:text-gray-200',
               'hover:bg-purple-50 dark:hover:bg-purple-500/10',
               'hover:text-purple-500 dark:hover:text-purple-400',
               'cursor-pointer transition-all duration-200',
               'outline-none',
               'group',
+              'touch-optimized',
             )}
             onClick={async () => {
               try {
@@ -148,6 +161,7 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
                 console.error('Failed to download debug log:', error);
               }
             }}
+            style={{ minHeight: '44px' }}
           >
             <div className="i-ph:download w-4 h-4 text-gray-400 group-hover:text-purple-500 dark:group-hover:text-purple-400 transition-colors" />
             Download Debug Log
@@ -155,15 +169,17 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
 
           <DropdownMenu.Item
             className={classNames(
-              'flex items-center gap-2 px-4 py-2.5',
+              'flex items-center gap-2 px-4 py-3 sm:py-2.5',
               'text-sm text-gray-700 dark:text-gray-200',
               'hover:bg-purple-50 dark:hover:bg-purple-500/10',
               'hover:text-purple-500 dark:hover:text-purple-400',
               'cursor-pointer transition-all duration-200',
               'outline-none',
               'group',
+              'touch-optimized',
             )}
             onClick={() => window.open('https://stackblitz-labs.github.io/bolt.diy/', '_blank')}
+            style={{ minHeight: '44px' }}
           >
             <div className="i-ph:question w-4 h-4 text-gray-400 group-hover:text-purple-500 dark:group-hover:text-purple-400 transition-colors" />
             Help & Documentation

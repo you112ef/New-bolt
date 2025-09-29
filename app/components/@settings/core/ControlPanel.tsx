@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useStore } from '@nanostores/react';
 import * as RadixDialog from '@radix-ui/react-dialog';
 import { classNames } from '~/utils/classNames';
@@ -13,6 +13,7 @@ import { TAB_LABELS, DEFAULT_TAB_CONFIG, TAB_DESCRIPTIONS } from './constants';
 import { DialogTitle } from '~/components/ui/Dialog';
 import { AvatarDropdown } from './AvatarDropdown';
 import BackgroundRays from '~/components/ui/BackgroundRays';
+import { initializeMobileOptimizations, isMobile } from '~/lib/utils/mobileOptimizations';
 
 // Import all tab components
 import ProfileTab from '~/components/@settings/tabs/profile/ProfileTab';
@@ -49,6 +50,10 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
   const [activeTab, setActiveTab] = useState<TabType | null>(null);
   const [loadingTab, setLoadingTab] = useState<TabType | null>(null);
   const [showTabManagement, setShowTabManagement] = useState(false);
+  
+  // Refs for mobile optimizations
+  const modalRef = useRef<HTMLDivElement>(null);
+  const cleanupMobileOptimizations = useRef<(() => void) | null>(null);
 
   // Store values
   const tabConfiguration = useStore(tabConfigurationStore);
@@ -98,9 +103,20 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
       setActiveTab(null);
       setLoadingTab(null);
       setShowTabManagement(false);
+      
+      // Cleanup mobile optimizations
+      if (cleanupMobileOptimizations.current) {
+        cleanupMobileOptimizations.current();
+        cleanupMobileOptimizations.current = null;
+      }
     } else {
       // When opening, set to null to show the main view
       setActiveTab(null);
+      
+      // Initialize mobile optimizations
+      if (isMobile() && modalRef.current) {
+        cleanupMobileOptimizations.current = initializeMobileOptimizations();
+      }
     }
   }, [open]);
 
@@ -234,8 +250,11 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
             className="relative z-[101]"
           >
             <div
+              ref={modalRef}
               className={classNames(
-                'w-[1200px] h-[90vh]',
+                // Responsive sizing - mobile first approach
+                'w-[95vw] h-[95vh] sm:w-[90vw] sm:h-[90vh] md:w-[85vw] md:h-[85vh] lg:w-[1200px] lg:h-[90vh]',
+                'max-w-[95vw] max-h-[95vh] sm:max-w-[90vw] sm:max-h-[90vh] md:max-w-[85vw] md:max-h-[85vh] lg:max-w-[1200px] lg:max-h-[90vh]',
                 'bg-bolt-elements-background-depth-1',
                 'rounded-2xl shadow-2xl',
                 'border border-bolt-elements-borderColor',
@@ -243,6 +262,8 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
                 'relative',
                 'transform transition-all duration-200 ease-out',
                 open ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-4',
+                // Mobile-specific optimizations
+                'mobile-optimized',
               )}
             >
               <div className="absolute inset-0 overflow-hidden rounded-2xl">
@@ -250,33 +271,35 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
               </div>
               <div className="relative z-10 flex flex-col h-full">
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                  <div className="flex items-center space-x-4">
+                <div className="flex items-center justify-between px-3 py-3 sm:px-6 sm:py-4 border-b border-gray-200 dark:border-gray-700">
+                  <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-1">
                     {(activeTab || showTabManagement) && (
                       <button
                         onClick={handleBack}
-                        className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent hover:bg-purple-500/10 dark:hover:bg-purple-500/20 group transition-colors duration-150"
+                        className="flex items-center justify-center w-10 h-10 sm:w-8 sm:h-8 rounded-full bg-transparent hover:bg-purple-500/10 dark:hover:bg-purple-500/20 group transition-colors duration-150 touch-optimized"
+                        style={{ minWidth: '40px', minHeight: '40px' }}
                       >
-                        <div className="i-ph:arrow-left w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-purple-500 transition-colors" />
+                        <div className="i-ph:arrow-left w-5 h-5 sm:w-4 sm:h-4 text-gray-500 dark:text-gray-400 group-hover:text-purple-500 transition-colors" />
                       </button>
                     )}
-                    <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-white">
+                    <DialogTitle className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white truncate">
                       {showTabManagement ? 'Tab Management' : activeTab ? TAB_LABELS[activeTab] : 'Control Panel'}
                     </DialogTitle>
                   </div>
 
-                  <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-2 sm:gap-6 flex-shrink-0">
                     {/* Avatar and Dropdown */}
-                    <div className="pl-6">
+                    <div className="pl-2 sm:pl-6">
                       <AvatarDropdown onSelectTab={handleTabClick} />
                     </div>
 
                     {/* Close Button */}
                     <button
                       onClick={handleClose}
-                      className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent hover:bg-purple-500/10 dark:hover:bg-purple-500/20 group transition-all duration-200"
+                      className="flex items-center justify-center w-10 h-10 sm:w-8 sm:h-8 rounded-full bg-transparent hover:bg-purple-500/10 dark:hover:bg-purple-500/20 group transition-all duration-200 touch-optimized"
+                      style={{ minWidth: '40px', minHeight: '40px' }}
                     >
-                      <div className="i-ph:x w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-purple-500 transition-colors" />
+                      <div className="i-ph:x w-5 h-5 sm:w-4 sm:h-4 text-gray-500 dark:text-gray-400 group-hover:text-purple-500 transition-colors" />
                     </button>
                   </div>
                 </div>
@@ -293,28 +316,33 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
                     'dark:scrollbar-thumb-[#333333] dark:hover:scrollbar-thumb-[#444444]',
                     'will-change-scroll',
                     'touch-auto',
+                    // Mobile-specific scroll optimizations
+                    'mobile-scroll-optimized',
                   )}
                 >
                   <div
                     className={classNames(
-                      'p-6 transition-opacity duration-150',
+                      'p-3 sm:p-6 transition-opacity duration-150',
                       activeTab || showTabManagement ? 'opacity-100' : 'opacity-100',
                     )}
                   >
                     {activeTab ? (
                       getTabComponent(activeTab)
                     ) : (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 relative">
                         {visibleTabs.map((tab, index) => (
                           <div
                             key={tab.id}
                             className={classNames(
                               'aspect-[1.5/1] transition-transform duration-100 ease-out',
                               'hover:scale-[1.01]',
+                              // Mobile touch optimizations
+                              'touch-optimized',
                             )}
                             style={{
                               animationDelay: `${index * 30}ms`,
                               animation: open ? 'fadeInUp 200ms ease-out forwards' : 'none',
+                              minHeight: '120px', // Ensure minimum touch target
                             }}
                           >
                             <TabTile
@@ -325,7 +353,7 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
                               statusMessage={getStatusMessage(tab.id)}
                               description={TAB_DESCRIPTIONS[tab.id]}
                               isLoading={loadingTab === tab.id}
-                              className="h-full relative"
+                              className="h-full relative touch-optimized"
                             >
                               {BETA_TABS.has(tab.id) && <BetaLabel />}
                             </TabTile>
