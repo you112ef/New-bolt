@@ -31,7 +31,7 @@ export const TabTile: React.FC<TabTileProps> = ({
     <Tooltip.Provider delayDuration={0}>
       <Tooltip.Root>
         <Tooltip.Trigger asChild>
-          <div className={classNames('min-h-[160px] list-none', className || '')}>
+          <div className={classNames('min-h-[140px] sm:min-h-[160px] list-none', className || '')}>
             <div className="relative h-full rounded-xl border border-[#E5E5E5] dark:border-[#333333] p-0.5">
               <GlowingEffect
                 blur={0}
@@ -46,7 +46,7 @@ export const TabTile: React.FC<TabTileProps> = ({
               <div
                 onClick={onClick}
                 className={classNames(
-                  'relative flex flex-col items-center justify-center h-full p-4 rounded-lg',
+                  'relative flex flex-col items-center justify-center h-full p-3 sm:p-4 rounded-lg',
                   'bg-white dark:bg-[#141414]',
                   'group cursor-pointer',
                   'hover:bg-purple-50 dark:hover:bg-[#1a1a1a]',
@@ -59,7 +59,7 @@ export const TabTile: React.FC<TabTileProps> = ({
                 <div
                   className={classNames(
                     'relative',
-                    'w-14 h-14',
+                    'w-12 h-12 sm:w-14 sm:h-14',
                     'flex items-center justify-center',
                     'rounded-xl',
                     'bg-gray-100 dark:bg-gray-800',
@@ -75,7 +75,7 @@ export const TabTile: React.FC<TabTileProps> = ({
                     return (
                       <IconComponent
                         className={classNames(
-                          'w-8 h-8',
+                          'w-6 h-6 sm:w-8 sm:h-8',
                           'text-gray-600 dark:text-gray-300',
                           'group-hover:text-purple-500 dark:group-hover:text-purple-400/80',
                           'transition-colors duration-100 ease-out',
@@ -87,10 +87,10 @@ export const TabTile: React.FC<TabTileProps> = ({
                 </div>
 
                 {/* Label and Description */}
-                <div className="flex flex-col items-center mt-4 w-full">
+                <div className="flex flex-col items-center mt-3 sm:mt-4 w-full">
                   <h3
                     className={classNames(
-                      'text-[15px] font-medium leading-snug mb-2',
+                      'text-sm sm:text-[15px] font-medium leading-snug mb-1 sm:mb-2',
                       'text-gray-700 dark:text-gray-200',
                       'group-hover:text-purple-600 dark:group-hover:text-purple-300/90',
                       'transition-colors duration-100 ease-out',
@@ -102,7 +102,7 @@ export const TabTile: React.FC<TabTileProps> = ({
                   {description && (
                     <p
                       className={classNames(
-                        'text-[13px] leading-relaxed',
+                        'text-xs sm:text-[13px] leading-relaxed',
                         'text-gray-500 dark:text-gray-400',
                         'max-w-[85%]',
                         'text-center',
