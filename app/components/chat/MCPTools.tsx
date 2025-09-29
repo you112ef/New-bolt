@@ -64,7 +64,7 @@ export function McpTools() {
 
       <DialogRoot open={isDialogOpen} onOpenChange={handleDialogOpen}>
         {isDialogOpen && (
-          <Dialog className="max-w-4xl w-full p-6">
+          <Dialog className="max-w-4xl w-full">
             <div className="space-y-4 max-h-[80vh] overflow-y-auto pr-2">
               <DialogTitle>
                 <div className="i-bolt:mcp text-xl"></div>

@@ -99,7 +99,7 @@ export function SupabaseConnection() {
 
       <DialogRoot open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         {isDialogOpen && (
-          <Dialog className="max-w-[520px] p-6">
+          <Dialog className="max-w-[520px]">
             {!isConnected ? (
               <div className="space-y-4">
                 <DialogTitle>

@@ -22,7 +22,7 @@ export const DialogButton = memo(({ type, children, onClick, disabled }: DialogB
   return (
     <button
       className={classNames(
-        'inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors',
+        'inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors min-h-[44px] touch-manipulation',
         type === 'primary'
           ? 'bg-purple-500 text-white hover:bg-purple-600 dark:bg-purple-500 dark:hover:bg-purple-600'
           : type === 'secondary'
@@ -78,7 +78,7 @@ export const dialogBackdropVariants = {
 export const dialogVariants = {
   closed: {
     x: '-50%',
-    y: '-40%',
+    y: '-50%',
     scale: 0.96,
     opacity: 0,
     transition,
@@ -101,6 +101,16 @@ interface DialogProps {
 }
 
 export const Dialog = memo(({ children, className, showCloseButton = true, onClose, onBackdrop }: DialogProps) => {
+  // Prevent background scrolling when modal is open
+  useEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    document.body.style.overflow = 'hidden';
+    
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []);
+
   return (
     <RadixDialog.Portal>
       <RadixDialog.Overlay asChild>
@@ -116,7 +126,10 @@ export const Dialog = memo(({ children, className, showCloseButton = true, onClo
       <RadixDialog.Content asChild>
         <motion.div
           className={classNames(
-            'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-950 rounded-lg shadow-xl border border-bolt-elements-borderColor z-[9999] w-[520px] focus:outline-none',
+            'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-950 rounded-lg shadow-xl border border-bolt-elements-borderColor z-[9999] w-[520px] max-w-[90vw] max-h-[90vh] overflow-y-auto focus:outline-none touch-action-manipulation',
+            'flex flex-col justify-center items-center',
+            'sm:w-[520px] sm:max-w-[90vw]',
+            'max-sm:w-[95vw] max-sm:max-h-[90vh] max-sm:mx-4',
             className,
           )}
           initial="closed"
@@ -124,13 +137,13 @@ export const Dialog = memo(({ children, className, showCloseButton = true, onClo
           exit="closed"
           variants={dialogVariants}
         >
-          <div className="flex flex-col">
+          <div className="flex flex-col w-full h-full min-h-0 p-4">
             {children}
             {showCloseButton && (
               <RadixDialog.Close asChild onClick={onClose}>
                 <IconButton
                   icon="i-ph:x"
-                  className="absolute top-3 right-3 text-bolt-elements-textTertiary hover:text-bolt-elements-textSecondary"
+                  className="absolute top-3 right-3 text-bolt-elements-textTertiary hover:text-bolt-elements-textSecondary min-h-[44px] min-w-[44px] touch-manipulation"
                 />
               </RadixDialog.Close>
             )}
