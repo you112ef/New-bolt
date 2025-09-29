@@ -1,0 +1,331 @@
+/* Mobile Control Panel Optimizations */
+
+/* Base mobile optimizations */
+.mobile-optimized {
+  /* Ensure proper touch targets */
+  * {
+    touch-action: manipulation;
+  }
+  
+  /* Prevent zoom on input focus */
+  input, textarea, select {
+    font-size: 16px;
+  }
+  
+  /* Smooth scrolling */
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Touch-optimized elements */
+.touch-optimized {
+  position: relative;
+  min-height: 44px;
+  min-width: 44px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Expand touch area with invisible padding */
+.touch-optimized::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(44px - 100%);
+  height: calc(44px - 100%);
+  min-width: 0;
+  min-height: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Mobile scroll optimizations */
+.mobile-scroll-optimized {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+}
+
+/* Responsive modal sizing */
+@media (max-width: 640px) {
+  .mobile-optimized {
+    /* Ensure modal fits on small screens */
+    width: 95vw !important;
+    height: 95vh !important;
+    max-width: 95vw !important;
+    max-height: 95vh !important;
+  }
+  
+  /* Adjust padding for mobile */
+  .mobile-optimized .p-3 {
+    padding: 12px;
+  }
+  
+  /* Ensure touch targets are large enough */
+  .touch-optimized {
+    min-height: 48px;
+    min-width: 48px;
+  }
+  
+  /* Mobile-specific button sizing */
+  .mobile-optimized button {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 12px 16px;
+  }
+  
+  /* Icon sizing for mobile */
+  .mobile-optimized .icon,
+  .mobile-optimized [class*="i-ph:"] {
+    min-width: 20px;
+    min-height: 20px;
+  }
+}
+
+/* Very small screens (320px and below) */
+@media (max-width: 360px) {
+  .mobile-optimized {
+    width: 98vw !important;
+    height: 98vh !important;
+    max-width: 98vw !important;
+    max-height: 98vh !important;
+  }
+  
+  /* Even larger touch targets for very small screens */
+  .touch-optimized {
+    min-height: 52px;
+    min-width: 52px;
+  }
+  
+  /* Reduce padding further */
+  .mobile-optimized .p-3 {
+    padding: 8px;
+  }
+}
+
+/* Landscape orientation optimizations */
+@media (max-width: 768px) and (orientation: landscape) {
+  .mobile-optimized {
+    height: 90vh !important;
+    max-height: 90vh !important;
+  }
+  
+  /* Adjust grid for landscape */
+  .mobile-optimized .grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .mobile-optimized {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Focus indicators for accessibility */
+.mobile-optimized button:focus,
+.mobile-optimized [role="button"]:focus,
+.mobile-optimized .touch-optimized:focus {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 2px;
+}
+
+/* Prevent text selection on touch elements */
+.mobile-optimized .touch-optimized {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Smooth transitions for mobile interactions */
+.mobile-optimized * {
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+/* Optimize for touch scrolling */
+.mobile-optimized .overflow-y-auto {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Ensure proper z-index stacking */
+.mobile-optimized {
+  z-index: 1000;
+}
+
+.mobile-optimized .modal,
+.mobile-optimized [role="dialog"] {
+  z-index: 1001;
+}
+
+/* Fix for iOS Safari viewport issues */
+@supports (-webkit-touch-callout: none) {
+  .mobile-optimized {
+    /* iOS Safari specific fixes */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+}
+
+/* Prevent bounce scrolling on iOS */
+.mobile-optimized {
+  overscroll-behavior: none;
+}
+
+/* Optimize for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-optimized * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Dark mode optimizations for mobile */
+@media (prefers-color-scheme: dark) {
+  .mobile-optimized {
+    /* Ensure proper contrast on mobile dark mode */
+    color-scheme: dark;
+  }
+}
+
+/* Ensure proper spacing for mobile keyboards */
+.mobile-optimized {
+  /* Prevent layout shift when keyboard appears */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Touch feedback for interactive elements */
+.touch-optimized:active {
+  transform: scale(0.98);
+  opacity: 0.8;
+}
+
+/* Ensure proper button spacing in mobile */
+.mobile-optimized .flex.items-center.gap-2 {
+  gap: 8px;
+}
+
+.mobile-optimized .flex.items-center.gap-6 {
+  gap: 16px;
+}
+
+/* Mobile-specific grid adjustments */
+@media (max-width: 640px) {
+  .mobile-optimized .grid-cols-1 {
+    grid-template-columns: 1fr;
+  }
+  
+  .mobile-optimized .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .mobile-optimized .gap-3 {
+    gap: 8px;
+  }
+  
+  .mobile-optimized .gap-4 {
+    gap: 12px;
+  }
+}
+
+/* Ensure proper text sizing on mobile */
+.mobile-optimized {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.mobile-optimized h1, .mobile-optimized h2, .mobile-optimized h3 {
+  line-height: 1.2;
+}
+
+/* Optimize for one-handed use */
+@media (max-width: 640px) {
+  .mobile-optimized .flex.items-center.justify-between {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .mobile-optimized .flex-shrink-0 {
+    flex-shrink: 1;
+  }
+}
+
+/* Ensure proper modal positioning on mobile */
+.mobile-optimized {
+  margin: 0;
+  position: fixed;
+  top: 2.5vh;
+  left: 2.5vw;
+  right: 2.5vw;
+  bottom: 2.5vh;
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+}
+
+/* Fix for Android Chrome address bar */
+@media (max-height: 500px) {
+  .mobile-optimized {
+    height: 100vh !important;
+    max-height: 100vh !important;
+    top: 0;
+    bottom: 0;
+  }
+}
+
+/* Mobile dropdown optimizations */
+.mobile-dropdown {
+  /* Ensure dropdown fits on mobile screens */
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile dropdown items */
+.mobile-dropdown .touch-optimized {
+  min-height: 48px;
+  min-width: 48px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Ensure dropdown positioning on mobile */
+@media (max-width: 640px) {
+  .mobile-dropdown {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 16px 16px 0 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+}
+
+/* Very small screens dropdown */
+@media (max-width: 360px) {
+  .mobile-dropdown {
+    max-height: 70vh;
+  }
+  
+  .mobile-dropdown .touch-optimized {
+    min-height: 52px;
+    padding: 14px 16px;
+  }
+}
